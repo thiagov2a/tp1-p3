@@ -7,7 +7,7 @@
 </h1>
 
 <p align="center">  
-  Este documento contiene el desarrollo y la documentación del Trabajo Práctico N°1 de Programación III, 2º Cuatrimestre 2024.
+  Este documento contiene el desarrollo y la documentación del Trabajo Práctico N°1 de Programación III, 1º Semestre 2025.
 </p>
 
 ---
@@ -42,5 +42,5 @@
 ---
 
 <p align="center">  
-  Universidad Nacional de General Sarmiento - UNGS | Programación III - 1º Semestre 2024
+  Universidad Nacional de General Sarmiento - UNGS | Programación III - 1º Semestre 2025
 </p>
