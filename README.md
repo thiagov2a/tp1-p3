@@ -3,7 +3,7 @@
 </h4>
 
 <h1 align="center">  
-  ✈️ Trabajo Práctico N°1: Juego Histeria - Programación III
+  🎨 Trabajo Práctico N°1: Juego Histeria - Programación III
 </h1>
 
 <p align="center">  
