@@ -18,9 +18,9 @@
 ---
 
 ### 🧑‍🤝‍🧑 Integrantes del Grupo
-- **:** 
-- **:** 
-- **:** 
+- **Carrasco, Elias Emmanuel:** elias.e.carrasco@gmail.com
+- **Piacenti, Nicolas Exequiel:** nexp263@gmail.com
+- **Quevedo, Mauricio Santiago:** mauricioqueve@gmail.com
 - **Vildosa, Thiago Joel:** tvildosa@gmail.com
 
 ---
