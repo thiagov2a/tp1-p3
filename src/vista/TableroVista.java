@@ -1,10 +1,10 @@
-package interfaz;
+package vista;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-public class Grillavisual {
+public class TableroVista {
 
 	private JFrame frame;
 
@@ -15,7 +15,7 @@ public class Grillavisual {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Grillavisual window = new Grillavisual();
+					TableroVista window = new TableroVista();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -27,7 +27,7 @@ public class Grillavisual {
 	/**
 	 * Create the application.
 	 */
-	public Grillavisual() {
+	public TableroVista() {
 		initialize();
 	}
 
