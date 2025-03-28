@@ -1,5 +1,6 @@
 package vista;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 
@@ -39,5 +40,17 @@ public class VentanaJuego {
 		panelTablero.setLayout(new GridLayout(TAMAÑO, TAMAÑO));
 		botonesCasillas = new JButton[TAMAÑO][TAMAÑO];
 	}
+
+	private Color Colorear(modelo.Color color){
+        switch(color){
+            case ROJO: return Color.RED;
+            case VERDE: return Color.GREEN;
+            case AZUL: return Color.BLUE;
+            case AMARILLO: return Color.YELLOW;
+            case NARANJA: return Color.ORANGE;
+            case VIOLETA: return new Color(76, 40, 130);
+            default: return Color.LIGHT_GRAY;
+        }
+    }
 
 }
