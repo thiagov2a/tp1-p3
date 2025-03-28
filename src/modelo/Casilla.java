@@ -1,27 +1,29 @@
 package modelo;
 
+import java.awt.Color;
+
 public class Casilla {
 
 	private int fila;
 	private int columna;
 	private boolean encendida;
-	private Color color;
+	private ColorCasilla colorCasilla;
 
 	public Casilla(int fila, int columna) {
 		this.fila = fila;
 		this.columna = columna;
 		this.encendida = false;
-		this.color = Color.GRIS;
+		this.colorCasilla = ColorCasilla.GRIS;
 	}
 
 	public void cambiarColor() {
 		this.encendida = true;
-		this.color = Color.obtenerColor();
+		this.colorCasilla = ColorCasilla.aleatorio();
 	}
 
 	public void apagar() {
 		this.encendida = false;
-		this.color = Color.GRIS;
+		this.colorCasilla = ColorCasilla.GRIS;
 	}
 
 	public int obtenerFila() {
@@ -37,7 +39,7 @@ public class Casilla {
 	}
 
 	public Color obtenerColor() {
-		return this.color;
+		return this.colorCasilla.obtenerColor();
 	}
 
 }
