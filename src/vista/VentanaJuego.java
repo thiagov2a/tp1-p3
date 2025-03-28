@@ -1,5 +1,6 @@
 package vista;
 
+
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 
@@ -39,5 +40,4 @@ public class VentanaJuego {
 		panelTablero.setLayout(new GridLayout(TAMAÑO, TAMAÑO));
 		botonesCasillas = new JButton[TAMAÑO][TAMAÑO];
 	}
-
 }

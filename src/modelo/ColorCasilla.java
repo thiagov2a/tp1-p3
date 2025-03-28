@@ -5,12 +5,12 @@ import java.util.Random;
 
 public enum ColorCasilla {
 
-	ROJO(Color.RED), 
-	VERDE(Color.GREEN), 
-	AZUL(Color.BLUE), 
-	AMARILLO(Color.YELLOW), 
-	NARANJA(Color.ORANGE), 
-	VIOLETA(Color.MAGENTA), 
+	ROJO(Color.RED),
+	VERDE(Color.GREEN),
+	AZUL(Color.BLUE),
+	AMARILLO(Color.YELLOW),
+	NARANJA(Color.ORANGE),
+	VIOLETA(Color.MAGENTA),
 	GRIS(Color.LIGHT_GRAY);
 
 	private Color color;
