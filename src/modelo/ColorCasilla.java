@@ -24,7 +24,7 @@ public enum ColorCasilla {
 		return this.color;
 	}
 
-	public static ColorCasilla aleatorio() {
+	public static ColorCasilla cambiarColor() {
 		ColorCasilla[] colores = ColorCasilla.values();
 		int valor = RAND.nextInt(colores.length - 1);
 		return colores[valor];

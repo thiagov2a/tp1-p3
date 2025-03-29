@@ -18,7 +18,7 @@ public class Casilla {
 
 	public void cambiarColor() {
 		this.encendida = true;
-		this.colorCasilla = ColorCasilla.aleatorio();
+		this.colorCasilla = ColorCasilla.cambiarColor();
 	}
 
 	public void apagar() {
