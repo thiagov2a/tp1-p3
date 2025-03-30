@@ -42,4 +42,7 @@ public class Casilla {
 		return this.colorCasilla.obtenerColor();
 	}
 
+	public ColorCasilla obtenerColorCasilla() {
+		return this.colorCasilla;
+	}
 }
