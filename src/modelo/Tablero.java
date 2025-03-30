@@ -15,4 +15,29 @@ public class Tablero {
 		}
 	}
 
+	public void cambiarColorCasilla(int fila, int columna) {
+		casillas[fila][columna].cambiarColor();
+		verificarYApagarCasillas(fila, columna);
+	}
+
+	private void verificarYApagarCasillas(int fila, int columna) {
+    ColorCasilla colorCentral = casillas[fila][columna].obtenerColorCasilla();
+
+    boolean izquierda = (columna > 0) && casillas[fila][columna - 1].obtenerColorCasilla() == colorCentral;
+    boolean derecha = (columna < TAMAÑO - 1) && casillas[fila][columna + 1].obtenerColorCasilla() == colorCentral;
+    boolean arriba = (fila > 0) && casillas[fila - 1][columna].obtenerColorCasilla() == colorCentral;
+    boolean abajo = (fila < TAMAÑO - 1) && casillas[fila + 1][columna].obtenerColorCasilla() == colorCentral;
+
+    if (izquierda || derecha || arriba || abajo) {
+        if (fila > 0) casillas[fila - 1][columna].apagar();
+        if (fila < TAMAÑO - 1) casillas[fila + 1][columna].apagar();
+        if (columna > 0) casillas[fila][columna - 1].apagar();
+        if (columna < TAMAÑO - 1) casillas[fila][columna + 1].apagar();
+    }
+}
+
+	public Casilla[][] getCasillas() {
+		return casillas;
+	}
+
 }
