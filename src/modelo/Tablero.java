@@ -33,8 +33,8 @@ public class Tablero {
         if (fila < TAMAÑO - 1) casillas[fila + 1][columna].apagar();
         if (columna > 0) casillas[fila][columna - 1].apagar();
         if (columna < TAMAÑO - 1) casillas[fila][columna + 1].apagar();
-    }
-}
+      }
+  }
 
 	public Casilla[][] getCasillas() {
 		return casillas;
