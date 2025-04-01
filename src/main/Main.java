@@ -12,5 +12,6 @@ public class Main {
 
 		controlador.colocarVista(vista);
 		vista.mostrar();
+		
 	}
 }
