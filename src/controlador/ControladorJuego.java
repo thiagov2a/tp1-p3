@@ -8,7 +8,6 @@ public class ControladorJuego {
 	private Tablero tablero;
 	private VentanaJuego vista;
 
-
 	public ControladorJuego(Tablero tablero) {
 		this.tablero = tablero;
 	}
