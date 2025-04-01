@@ -4,7 +4,7 @@ public class Tablero {
 
 	private Casilla[][] casillas;
 	private final int TAMAÑO = 5;
-    private int contFallos=0;
+    private int cantIntentos=0;
     
 	public Tablero() {
 		this.casillas = new Casilla[TAMAÑO][TAMAÑO];
@@ -19,6 +19,8 @@ public class Tablero {
 	public void cambiarColorCasilla(int fila, int columna) {
 		casillas[fila][columna].cambiarColor();
 		verificarYApagarCasillas(fila, columna);
+        cantIntentos=cantIntentos+ 1;
+        System.out.println(cantIntentos);
 	}
 
 	private void verificarYApagarCasillas(int fila, int columna) {
@@ -38,8 +40,7 @@ public class Tablero {
         if (columna < TAMAÑO - 1) casillas[fila][columna + 1].apagar();
 
         casillas[fila][columna].apagar(); // cuando se borra cualquiera de las celdas se borra automaticamente la del medio ç        
-        contFallos=contFallos+ 1;
-        System.out.println(contFallos);
+
       }
   }
 
@@ -48,7 +49,7 @@ public class Tablero {
 	}
 
 
-	public int getContFallos() {
-		return contFallos;
+	public int getContIntentos() {
+		return cantIntentos;
 	}
 }

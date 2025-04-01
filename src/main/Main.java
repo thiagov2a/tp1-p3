@@ -8,10 +8,10 @@ public class Main {
 	public static void main(String[] args) {
 		Tablero tablero = new Tablero();
 		ControladorJuego controlador = new ControladorJuego(tablero);
-		VentanaJuego vista = new VentanaJuego(controlador);
+		VentanaJuego vista = new VentanaJuego(controlador, tablero);
 
 		controlador.colocarVista(vista);
 		vista.mostrar();
-		
+
 	}
 }
