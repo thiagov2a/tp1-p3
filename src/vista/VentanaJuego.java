@@ -1,6 +1,5 @@
 package vista;
 
-import java.awt.EventQueue;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -8,6 +7,7 @@ import javax.swing.JPanel;
 
 import controlador.ControladorJuego;
 import modelo.Casilla;
+import modelo.ColorCasilla;
 
 public class VentanaJuego {
 
@@ -17,21 +17,10 @@ public class VentanaJuego {
     private final int TAMAÑO = 5;
     private ControladorJuego controlador;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    VentanaJuego window = new VentanaJuego();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public VentanaJuego() {
+    public VentanaJuego(ControladorJuego controlador) {
+        this.controlador = controlador;
         inicializar();
+        agregarObservadores();
     }
 
     private void inicializar() {
@@ -43,23 +32,24 @@ public class VentanaJuego {
         frame.add(panelTablero);
 
         botonesCasillas = new JButton[TAMAÑO][TAMAÑO];
-
         for (int i = 0; i < TAMAÑO; i++) {
             for (int j = 0; j < TAMAÑO; j++) {
                 botonesCasillas[i][j] = new JButton();
-                final int fila = i, columna = j; // Variables finales para el listener
-                botonesCasillas[i][j].addActionListener(e -> {
-                    if (controlador != null) {  // Verificamos que el controlador no sea null
-                        controlador.manejarClick(fila, columna);
-                    }
-                });
+                botonesCasillas[i][j].setBackground(ColorCasilla.GRIS.obtenerColor());
                 panelTablero.add(botonesCasillas[i][j]);
             }
         }
     }
-    
-    public void setControlador(ControladorJuego controlador) {
-        this.controlador = controlador;
+
+    private void agregarObservadores() {
+        for (int i = 0; i < TAMAÑO; i++) {
+            for (int j = 0; j < TAMAÑO; j++) {
+                final int fila = i, columna = j;
+                botonesCasillas[i][j].addActionListener(e -> {
+                    controlador.manejarClick(fila, columna);
+                });
+            }
+        }
     }
 
     public void actualizarVista(Casilla[][] casillas) {
@@ -73,5 +63,4 @@ public class VentanaJuego {
     public void mostrar() {
         frame.setVisible(true);
     }
-    
 }

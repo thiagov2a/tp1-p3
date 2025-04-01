@@ -36,19 +36,19 @@ public class Tablero {
         if (fila < TAMAÑO - 1) casillas[fila + 1][columna].apagar();
         if (columna > 0) casillas[fila][columna - 1].apagar();
         if (columna < TAMAÑO - 1) casillas[fila][columna + 1].apagar();
+
         casillas[fila][columna].apagar(); // cuando se borra cualquiera de las celdas se borra automaticamente la del medio ç        
         contFallos=contFallos+ 1;
         System.out.println(contFallos);
-    }
-}
+      }
+  }
 
 	public Casilla[][] getCasillas() {
 		return casillas;
 	}
 
+
 	public int getContFallos() {
 		return contFallos;
 	}
-
-	
 }

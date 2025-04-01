@@ -19,15 +19,14 @@ public enum ColorCasilla {
 	ColorCasilla(Color color) {
 		this.color = color;
 	}
-	
-	public Color obtenerColor() {
-		return this.color;
-	}
 
 	public static ColorCasilla cambiarColor() {
 		ColorCasilla[] colores = ColorCasilla.values();
-		int valor = RAND.nextInt(colores.length - 1);
+		int valor = RAND.nextInt(colores.length - 1); // Todos los colores menos el GRIS
 		return colores[valor];
 	}
 
+	public Color obtenerColor() {
+		return this.color;
+	}
 }

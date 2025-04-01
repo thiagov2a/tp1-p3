@@ -5,13 +5,12 @@ import modelo.Tablero;
 import vista.VentanaJuego;
 
 public class Main {
-
 	public static void main(String[] args) {
 		Tablero tablero = new Tablero();
-		VentanaJuego vista = new VentanaJuego();
-		ControladorJuego controlador = new ControladorJuego(tablero, vista);
+		ControladorJuego controlador = new ControladorJuego(tablero);
+		VentanaJuego vista = new VentanaJuego(controlador);
 
-		vista.setControlador(controlador);
+		controlador.colocarVista(vista);
 		vista.mostrar();
 		
 	}
