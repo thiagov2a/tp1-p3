@@ -7,9 +7,11 @@ public class ControladorJuego {
 
 	private Tablero tablero;
 	private VentanaJuego vista;
+	private int nivelActual;
 
-	public ControladorJuego(Tablero tablero) {
+	public ControladorJuego(Tablero tablero, int nivelActual) {
 		this.tablero = tablero;
+		this.nivelActual = nivelActual;
 	}
 
 	public void colocarVista(VentanaJuego vista) {
@@ -26,10 +28,11 @@ public class ControladorJuego {
 		}
 	}
 
-	public void reiniciarJuego(int nuevoTamaño) {
-		Tablero nuevoTablero = new Tablero(nuevoTamaño);
-		ControladorJuego nuevoControlador = new ControladorJuego(nuevoTablero);
-		VentanaJuego nuevaVista = new VentanaJuego(nuevoControlador, nuevoTamaño);
+	public void avanzarNivel() {
+		nivelActual++;
+		Tablero nuevoTablero = new Tablero(nivelActual);
+		ControladorJuego nuevoControlador = new ControladorJuego(nuevoTablero, nivelActual);
+		VentanaJuego nuevaVista = new VentanaJuego(nuevoControlador, nivelActual);
 
 		nuevoControlador.colocarVista(nuevaVista);
 		nuevaVista.mostrar();

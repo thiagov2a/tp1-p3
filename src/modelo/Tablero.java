@@ -6,15 +6,16 @@ public class Tablero {
 
 	private int tamaño;
 	private Casilla[][] casillas;
-	private int cantIntentos;
+	private int errores;
 
 	public Tablero() {
+		this(5);
 	}
 
 	public Tablero(int tamaño) {
 		this.tamaño = tamaño;
 		this.casillas = inicializarTablero(tamaño);
-		this.cantIntentos = 0;
+		this.errores = 0;
 	}
 
 	private Casilla[][] inicializarTablero(int tamaño) {
@@ -50,7 +51,7 @@ public class Tablero {
 			if (columna < tamaño - 1)
 				casillas[fila][columna + 1].apagar();
 			casillas[fila][columna].apagar();
-			this.cantIntentos++;
+			this.errores++;
 		}
 	}
 
@@ -76,10 +77,6 @@ public class Tablero {
 	}
 
 	public int getContIntentos() {
-		return cantIntentos;
-	}
-
-	public int getTamaño() {
-		return tamaño;
+		return errores;
 	}
 }
