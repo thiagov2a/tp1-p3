@@ -2,25 +2,36 @@ package modelo;
 
 public class Tablero {
 
-	private Casilla[][] casillas;
 	private int tamaño;
+	private Casilla[][] casillas;
 	private int cantIntentos;
 
+	// Constructor por defecto
 	public Tablero() {
-		this.casillas = new Casilla[tamaño][tamaño];
+		this(5); // usa 5 como tamaño por defecto
+	}
+
+	// Nuevo constructor con tamaño personalizado
+	public Tablero(int tamaño) {
+		this.tamaño = tamaño;
+		this.casillas = inicializarTablero(tamaño); 
+		this.cantIntentos = 0;
+	}
+	
+	private Casilla[][] inicializarTablero(int tamaño) {
+		Casilla[][] casillas = new Casilla[tamaño][tamaño];
 		for (int i = 0; i < tamaño; i++) {
 			for (int j = 0; j < tamaño; j++) {
-				this.casillas[i][j] = new Casilla(i, j);
+				casillas[i][j] = new Casilla(i, j);
 			}
 		}
-		this.tamaño = 5;
-		this.cantIntentos = 0;
+		return casillas;
 	}
 
 	public void cambiarColorCasilla(int fila, int columna) {
-		casillas[fila][columna].cambiarColor();
+		this.casillas[fila][columna].cambiarColor();
 		verificarYApagarCasillas(fila, columna);
-		cantIntentos++;
+		this.cantIntentos++;
 	}
 
 	private void verificarYApagarCasillas(int fila, int columna) {
@@ -43,9 +54,16 @@ public class Tablero {
 			casillas[fila][columna].apagar();
 		}
 	}
-	
+
 	public boolean verificarVictoria() {
-		return false;
+		for (int i = 0; i < tamaño; i++) {
+			for (int j = 0; j < tamaño; j++) {
+				if (casillas[i][j].obtenerColorCasilla().equals(ColorCasilla.GRIS)) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public Casilla[][] getCasillas() {
@@ -54,5 +72,9 @@ public class Tablero {
 
 	public int getContIntentos() {
 		return cantIntentos;
+	}
+
+	public int getTamaño() {
+		return tamaño;
 	}
 }

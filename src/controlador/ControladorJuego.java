@@ -16,6 +16,7 @@ public class ControladorJuego {
 		tablero.cambiarColorCasilla(fila, columna);
 		vista.actualizarVista(tablero.getCasillas());
 		vista.actualizarContadorIntentos();
+		vista.verificarVictoria();
 	}
 
 	public void colocarVista(VentanaJuego vista) {
