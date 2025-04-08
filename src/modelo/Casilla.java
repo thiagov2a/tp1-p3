@@ -6,6 +6,9 @@ public class Casilla {
 
 	private ColorCasilla colorCasilla;
 
+	public Casilla() {
+	}
+
 	public Casilla(int fila, int columna) {
 		this.colorCasilla = ColorCasilla.GRIS;
 	}

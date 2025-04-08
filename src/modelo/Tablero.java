@@ -1,26 +1,35 @@
 package modelo;
 
+import java.awt.Color;
+
 public class Tablero {
 
-	private Casilla[][] casillas;
 	private int tamaño;
+	private Casilla[][] casillas;
 	private int cantIntentos;
 
 	public Tablero() {
-		this.casillas = new Casilla[tamaño][tamaño];
-		for (int i = 0; i < tamaño; i++) {
-			for (int j = 0; j < tamaño; j++) {
-				this.casillas[i][j] = new Casilla(i, j);
-			}
-		}
-		this.tamaño = 5;
+	}
+
+	public Tablero(int tamaño) {
+		this.tamaño = tamaño;
+		this.casillas = inicializarTablero(tamaño);
 		this.cantIntentos = 0;
 	}
 
+	private Casilla[][] inicializarTablero(int tamaño) {
+		Casilla[][] casillas = new Casilla[tamaño][tamaño];
+		for (int i = 0; i < tamaño; i++) {
+			for (int j = 0; j < tamaño; j++) {
+				casillas[i][j] = new Casilla(i, j);
+			}
+		}
+		return casillas;
+	}
+
 	public void cambiarColorCasilla(int fila, int columna) {
-		casillas[fila][columna].cambiarColor();
+		this.casillas[fila][columna].cambiarColor();
 		verificarYApagarCasillas(fila, columna);
-		cantIntentos++;
 	}
 
 	private void verificarYApagarCasillas(int fila, int columna) {
@@ -41,18 +50,36 @@ public class Tablero {
 			if (columna < tamaño - 1)
 				casillas[fila][columna + 1].apagar();
 			casillas[fila][columna].apagar();
+			this.cantIntentos++;
 		}
 	}
-	
+
 	public boolean verificarVictoria() {
-		return false;
+		for (int i = 0; i < tamaño; i++) {
+			for (int j = 0; j < tamaño; j++) {
+				if (casillas[i][j].obtenerColorCasilla().equals(ColorCasilla.GRIS)) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
-	public Casilla[][] getCasillas() {
-		return casillas;
+	public Color[][] obtenerColores() {
+		Color[][] colores = new Color[tamaño][tamaño];
+		for (int i = 0; i < tamaño; i++) {
+			for (int j = 0; j < tamaño; j++) {
+				colores[i][j] = casillas[i][j].obtenerColor();
+			}
+		}
+		return colores;
 	}
 
 	public int getContIntentos() {
 		return cantIntentos;
+	}
+
+	public int getTamaño() {
+		return tamaño;
 	}
 }
