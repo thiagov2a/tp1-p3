@@ -66,6 +66,10 @@ public class Tablero {
 		return true;
 	}
 
+	public int obtenerTamaño() {
+		return this.tamaño;
+	}
+
 	public Color[][] obtenerColores() {
 		Color[][] colores = new Color[tamaño][tamaño];
 		for (int i = 0; i < tamaño; i++) {
@@ -76,7 +80,7 @@ public class Tablero {
 		return colores;
 	}
 
-	public int getContIntentos() {
+	public int obtenerErrores() {
 		return errores;
 	}
 }

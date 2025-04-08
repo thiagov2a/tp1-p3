@@ -19,10 +19,10 @@ public class VentanaJuego {
 
 	private JFrame frame;
 	private JPanel panelTablero;
-	private JLabel errores;
+	private JLabel labelErrores;
 	private JButton[][] botonesCasillas;
-	private int tamaño;
 	private ControladorJuego controlador;
+	private int tamaño;
 
 	public VentanaJuego(ControladorJuego controlador, int tamaño) {
 		this.controlador = controlador;
@@ -41,9 +41,9 @@ public class VentanaJuego {
 		// Panel superior con contador de intentos
 		JPanel panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panelSuperior.setBorder(new EmptyBorder(5, 10, 5, 10));
-		errores = new JLabel("Errores: 0");
-		errores.setFont(new Font("Segoe UI", Font.BOLD, 24));
-		panelSuperior.add(errores);
+		labelErrores = new JLabel("Errores: 0");
+		labelErrores.setFont(new Font("Segoe UI", Font.BOLD, 24));
+		panelSuperior.add(labelErrores);
 
 		// Panel con el tablero
 		panelTablero = new JPanel(new GridLayout(tamaño, tamaño));
@@ -78,23 +78,8 @@ public class VentanaJuego {
 				botonesCasillas[i][j].setBackground(colores[i][j]);
 			}
 		}
-		this.errores.setText("Errores: " + errores);
+		this.labelErrores.setText("Errores: " + errores);
 	}
-
-	/*
-	 * public void mostrarPantallaVictoria() { int opcion =
-	 * JOptionPane.showOptionDialog(frame,
-	 * "¡Felicidades! Pasaste el tutorial. Ahora jugá de verdad. Elegí una dificultad:"
-	 * , "Nivel completado", JOptionPane.DEFAULT_OPTION,
-	 * JOptionPane.INFORMATION_MESSAGE, null, new String[] { "10x10", "15x15",
-	 * "20x20" }, "10x10");
-	 * 
-	 * int[] tamañosDisponibles = { 10, 15, 20 };
-	 * 
-	 * if (opcion >= 0 && opcion < tamañosDisponibles.length) { int nuevoTamaño =
-	 * tamañosDisponibles[opcion]; frame.dispose(); // Cerrar ventana actual
-	 * controlador.reiniciarJuego(nuevoTamaño); } }
-	 */
 
 	public void mostrarPantallaVictoria() {
 		JOptionPane.showMessageDialog(frame, "¡Nivel completado! Vas al siguiente nivel.");
