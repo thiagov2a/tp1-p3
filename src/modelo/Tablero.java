@@ -1,23 +1,22 @@
 package modelo;
 
+import java.awt.Color;
+
 public class Tablero {
 
 	private int tamaño;
 	private Casilla[][] casillas;
 	private int cantIntentos;
 
-	// Constructor por defecto
 	public Tablero() {
-		this(5); // usa 5 como tamaño por defecto
 	}
 
-	// Nuevo constructor con tamaño personalizado
 	public Tablero(int tamaño) {
 		this.tamaño = tamaño;
-		this.casillas = inicializarTablero(tamaño); 
+		this.casillas = inicializarTablero(tamaño);
 		this.cantIntentos = 0;
 	}
-	
+
 	private Casilla[][] inicializarTablero(int tamaño) {
 		Casilla[][] casillas = new Casilla[tamaño][tamaño];
 		for (int i = 0; i < tamaño; i++) {
@@ -31,7 +30,6 @@ public class Tablero {
 	public void cambiarColorCasilla(int fila, int columna) {
 		this.casillas[fila][columna].cambiarColor();
 		verificarYApagarCasillas(fila, columna);
-		this.cantIntentos++;
 	}
 
 	private void verificarYApagarCasillas(int fila, int columna) {
@@ -52,6 +50,7 @@ public class Tablero {
 			if (columna < tamaño - 1)
 				casillas[fila][columna + 1].apagar();
 			casillas[fila][columna].apagar();
+			this.cantIntentos++;
 		}
 	}
 
@@ -66,8 +65,14 @@ public class Tablero {
 		return true;
 	}
 
-	public Casilla[][] getCasillas() {
-		return casillas;
+	public Color[][] obtenerColores() {
+		Color[][] colores = new Color[tamaño][tamaño];
+		for (int i = 0; i < tamaño; i++) {
+			for (int j = 0; j < tamaño; j++) {
+				colores[i][j] = casillas[i][j].obtenerColor();
+			}
+		}
+		return colores;
 	}
 
 	public int getContIntentos() {
