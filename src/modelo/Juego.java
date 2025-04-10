@@ -20,6 +20,11 @@ public class Juego {
 		this.tablero = new Tablero(nivelActual);
 	}
 
+	public void reiniciarNivel() {
+		actualizarRecord(tablero.obtenerErrores());
+		this.tablero = new Tablero(nivelActual);
+	}
+
 	private void actualizarRecord(int errores) {
 		if (!primerRecordGuardado) {
 			this.record = errores;

@@ -13,9 +13,9 @@ public class ControladorJuego {
 		this.juego = juego;
 	}
 
-	public void colocarVista(VentanaJuego vista) {
-		this.vista = vista;
-		actualizarVista(); // Actualiza vista al asignarla
+	public void colocarVista(VentanaJuego nuevaVista) {
+		this.vista = nuevaVista;
+		actualizarVista();
 	}
 
 	public void manejarClick(int fila, int columna) {
@@ -29,8 +29,16 @@ public class ControladorJuego {
 
 	public void avanzarNivel() {
 		juego.avanzarNivel();
-		int tamaño = juego.obtenerTablero().obtenerTamaño();
+		iniciarNuevaVista();
+	}
 
+	public void reiniciarNivel() {
+		juego.reiniciarNivel();
+		iniciarNuevaVista();
+	}
+
+	private void iniciarNuevaVista() {
+		int tamaño = juego.obtenerTablero().obtenerTamaño();
 		VentanaJuego nuevaVista = new VentanaJuego(this, tamaño);
 		colocarVista(nuevaVista);
 		nuevaVista.mostrar();
@@ -39,9 +47,5 @@ public class ControladorJuego {
 	private void actualizarVista() {
 		Tablero tablero = juego.obtenerTablero();
 		vista.actualizarVista(tablero.obtenerColores(), juego.obtenerRecord(), tablero.obtenerErrores());
-	}
-
-	public void reiniciarNivel() {
-		// TODO Auto-generated method stub
 	}
 }

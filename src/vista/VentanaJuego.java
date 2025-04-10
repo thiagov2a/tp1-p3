@@ -53,34 +53,41 @@ public class VentanaJuego {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLayout(new BorderLayout());
-		labelTiempo = new JLabel("Tiempo: 00:00");
-		labelTiempo.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		labelTiempo.setBounds(250, 10, 220, 30);
-		labelTiempo.setHorizontalAlignment(SwingConstants.RIGHT);
-		frame.getContentPane().add(labelTiempo);
 
-		// Panel superior con contador de intentos
-		JPanel panelSuperior = new JPanel();
-		panelSuperior.setLayout(new BoxLayout(panelSuperior, BoxLayout.Y_AXIS));
+		// Panel superior con tres secciones: izquierda, centro y derecha
+		JPanel panelSuperior = new JPanel(new BorderLayout());
 		panelSuperior.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-		labelRecord = new JLabel("Record: 0");
+		// Label izquierdo - Record
+		labelRecord = new JLabel("Récord: 0");
 		labelRecord.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		labelRecord.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+		JPanel panelIzquierda = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		panelIzquierda.setOpaque(false);
+		panelIzquierda.add(labelRecord);
 
+		// Label central - Errores
 		labelErrores = new JLabel("Errores: 0");
 		labelErrores.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		labelErrores.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+		JPanel panelCentro = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		panelCentro.setOpaque(false);
+		panelCentro.add(labelErrores);
 
-		panelSuperior.add(labelRecord);
-		panelSuperior.add(labelErrores);
+		// Label derecho - Tiempo
+		labelTiempo = new JLabel("Tiempo: 00:00");
+		labelTiempo.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		JPanel panelDerecha = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		panelDerecha.setOpaque(false);
+		panelDerecha.add(labelTiempo);
 
+		// Añadir los tres al panel superior
+		panelSuperior.add(panelIzquierda, BorderLayout.WEST);
+		panelSuperior.add(panelCentro, BorderLayout.CENTER);
+		panelSuperior.add(panelDerecha, BorderLayout.EAST);
 
-		// Panel con el tablero
+		// Panel del tablero
 		panelTablero = new JPanel(new GridLayout(tamaño, tamaño));
 		panelTablero.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-		// Inicializar botones
 		botonesCasillas = new JButton[tamaño][tamaño];
 		for (int i = 0; i < tamaño; i++) {
 			for (int j = 0; j < tamaño; j++) {
@@ -90,30 +97,27 @@ public class VentanaJuego {
 			}
 		}
 
-		// TODO: Pasar método/lógica a Clase Juego.java
-		// Temporizador que se ejecuta cada 1000 milisegundos (1 segundo)
-		temporizador = new Timer(1000, new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				segundos++;
-				int minutos = segundos / 60;
-				int segRestantes = segundos % 60;
-
-				String tiempoFormateado = String.format("Tiempo: %02d:%02d", minutos, segRestantes);
-				labelTiempo.setText(tiempoFormateado);
-			}
+		// Temporizador
+		temporizador = new Timer(1000, e -> {
+			segundos++;
+			int minutos = segundos / 60;
+			int segRestantes = segundos % 60;
+			String tiempoFormateado = String.format("Tiempo: %02d:%02d", minutos, segRestantes);
+			labelTiempo.setText(tiempoFormateado);
 		});
 		temporizador.start();
+
 		JPanel panelPrincipal = (JPanel) frame.getContentPane();
 		InputMap inputMap = panelPrincipal.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 		ActionMap actionMap = panelPrincipal.getActionMap();
 		KeyStroke salto = KeyStroke.getKeyStroke("shift S");
 		inputMap.put(salto, "saltarNivel");
 		actionMap.put("saltarNivel", new AbstractAction() {
-		    public void actionPerformed(ActionEvent e) {
-		        saltearNivel(); 
-		    }
+			public void actionPerformed(ActionEvent e) {
+				mostrarPantallaVictoria();
+			}
 		});
-		
+
 		frame.add(panelSuperior, BorderLayout.NORTH);
 		frame.add(panelTablero, BorderLayout.CENTER);
 	}
@@ -139,21 +143,21 @@ public class VentanaJuego {
 
 	public void mostrarPantallaVictoria() {
 		temporizador.stop();
-		JOptionPane.showMessageDialog(frame,
-				"¡Nivel completado en " + segundos / 60 + ":" + segundos % 60 + "! Vas al siguiente nivel.");
-		frame.dispose();
-		controlador.avanzarNivel();
-	}
-	
-	public void saltearNivel() {
-		temporizador.stop();
+		int opcion = JOptionPane.showOptionDialog(frame,
+				"¡Nivel completado en " + String.format("%02d:%02d", segundos / 60, segundos % 60)
+						+ "!\n¿Qué querés hacer?",
+				"Nivel Completado", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
+				new Object[] { "Siguiente nivel", "Reintentar" }, "Siguiente nivel");
 
-	    JOptionPane.showMessageDialog(frame, 
-	    		"¡Nivel completado en " + segundos / 60 + ":" + segundos % 60 + "! Vas al siguiente nivel.");
-	    frame.dispose();
-		controlador.avanzarNivel();
+		frame.dispose();
+
+		if (opcion == JOptionPane.YES_OPTION) {
+			controlador.avanzarNivel();
+		} else {
+			controlador.reiniciarNivel();
+		}
 	}
-	
+
 	public void mostrar() {
 		frame.setVisible(true);
 	}
