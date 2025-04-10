@@ -2,19 +2,21 @@ package vista;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 
 import controlador.ControladorJuego;
 import modelo.ColorCasilla;
@@ -24,17 +26,18 @@ public class VentanaJuego {
 	private JFrame frame;
 	private JPanel panelTablero;
 	private JLabel labelErrores;
+	private JLabel labelRecord;
+	private JLabel labelTiempo;
 	private JButton[][] botonesCasillas;
 	private ControladorJuego controlador;
 	private int tamaño;
-	private int segundos = 0;
-	private Timer timer;
-	private JLabel labelTiempo;
-
+	private int segundos;
+	private Timer temporizador;
 
 	public VentanaJuego(ControladorJuego controlador, int tamaño) {
 		this.controlador = controlador;
 		this.tamaño = tamaño;
+		this.segundos = 0;
 		inicializar();
 		configurarListeners();
 	}
@@ -52,11 +55,21 @@ public class VentanaJuego {
 		frame.getContentPane().add(labelTiempo);
 
 		// Panel superior con contador de intentos
-		JPanel panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panelSuperior.setBorder(new EmptyBorder(5, 10, 5, 10));
+		JPanel panelSuperior = new JPanel();
+		panelSuperior.setLayout(new BoxLayout(panelSuperior, BoxLayout.Y_AXIS));
+		panelSuperior.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+		labelRecord = new JLabel("Record: 0");
+		labelRecord.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		labelRecord.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+
 		labelErrores = new JLabel("Errores: 0");
 		labelErrores.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		labelErrores.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+
+		panelSuperior.add(labelRecord);
 		panelSuperior.add(labelErrores);
+
 
 		// Panel con el tablero
 		panelTablero = new JPanel(new GridLayout(tamaño, tamaño));
@@ -71,21 +84,21 @@ public class VentanaJuego {
 				panelTablero.add(botonesCasillas[i][j]);
 			}
 		}
-		
+
+		// TODO: Pasar método/lógica a Clase Juego.java
 		// Temporizador que se ejecuta cada 1000 milisegundos (1 segundo)
-		timer = new Timer(1000, new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        segundos++;
-		        int minutos = segundos / 60;
-		        int segRestantes = segundos % 60;
-		        
-		        String tiempoFormateado = String.format("Tiempo: %02d:%02d", minutos, segRestantes);
-		        labelTiempo.setText(tiempoFormateado);
-		    }
-		  }
-		);
-		timer.start();
-		
+		temporizador = new Timer(1000, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				segundos++;
+				int minutos = segundos / 60;
+				int segRestantes = segundos % 60;
+
+				String tiempoFormateado = String.format("Tiempo: %02d:%02d", minutos, segRestantes);
+				labelTiempo.setText(tiempoFormateado);
+			}
+		});
+		temporizador.start();
+
 		frame.add(panelSuperior, BorderLayout.NORTH);
 		frame.add(panelTablero, BorderLayout.CENTER);
 	}
@@ -99,21 +112,22 @@ public class VentanaJuego {
 		}
 	}
 
-	public void actualizarVista(Color[][] colores, int errores) {
+	public void actualizarVista(Color[][] colores, int record, int errores) {
 		for (int i = 0; i < tamaño; i++) {
 			for (int j = 0; j < tamaño; j++) {
 				botonesCasillas[i][j].setBackground(colores[i][j]);
 			}
 		}
+		this.labelRecord.setText("Record: " + record);
 		this.labelErrores.setText("Errores: " + errores);
 	}
 
 	public void mostrarPantallaVictoria() {
-		timer.stop();
-		JOptionPane.showMessageDialog(frame, "¡Nivel completado en " + segundos /60 +":"+ segundos %60+"! Vas al siguiente nivel.");
+		temporizador.stop();
+		JOptionPane.showMessageDialog(frame,
+				"¡Nivel completado en " + segundos / 60 + ":" + segundos % 60 + "! Vas al siguiente nivel.");
 		frame.dispose();
 		controlador.avanzarNivel();
-		
 	}
 
 	public void mostrar() {

@@ -15,25 +15,33 @@ public class ControladorJuego {
 
 	public void colocarVista(VentanaJuego vista) {
 		this.vista = vista;
+		actualizarVista(); // Actualiza vista al asignarla
 	}
 
 	public void manejarClick(int fila, int columna) {
-		Tablero tablero = this.juego.obtenerTablero();
-		
-		tablero.cambiarColorCasilla(fila, columna);
-		vista.actualizarVista(tablero.obtenerColores(), tablero.obtenerErrores());
+		juego.obtenerTablero().cambiarColorCasilla(fila, columna);
+		actualizarVista();
 
-		if (tablero.verificarVictoria()) {
+		if (juego.obtenerTablero().verificarVictoria()) {
 			vista.mostrarPantallaVictoria();
 		}
 	}
 
 	public void avanzarNivel() {
-		this.juego.avanzarNivel();
+		juego.avanzarNivel();
 		int tamaño = juego.obtenerTablero().obtenerTamaño();
 
 		VentanaJuego nuevaVista = new VentanaJuego(this, tamaño);
 		colocarVista(nuevaVista);
 		nuevaVista.mostrar();
+	}
+
+	private void actualizarVista() {
+		Tablero tablero = juego.obtenerTablero();
+		vista.actualizarVista(tablero.obtenerColores(), juego.obtenerRecord(), tablero.obtenerErrores());
+	}
+
+	public void reiniciarNivel() {
+		// TODO Auto-generated method stub
 	}
 }

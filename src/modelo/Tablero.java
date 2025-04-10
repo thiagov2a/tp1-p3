@@ -51,7 +51,8 @@ public class Tablero {
 			if (columna < tamaño - 1)
 				casillas[fila][columna + 1].apagar();
 			casillas[fila][columna].apagar();
-			this.errores++;
+			
+			errores++;
 		}
 	}
 
