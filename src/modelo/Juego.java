@@ -15,7 +15,7 @@ public class Juego {
 	}
 
 	public void avanzarNivel() {
-		actualizarRecord(tablero.obtenerErrores());
+		record = 0;
 		nivelActual++;
 		this.tablero = new Tablero(nivelActual);
 	}
