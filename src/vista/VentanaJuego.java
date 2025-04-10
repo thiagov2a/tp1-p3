@@ -8,12 +8,17 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.BoxLayout;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
@@ -98,7 +103,17 @@ public class VentanaJuego {
 			}
 		});
 		temporizador.start();
-
+		JPanel panelPrincipal = (JPanel) frame.getContentPane();
+		InputMap inputMap = panelPrincipal.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		ActionMap actionMap = panelPrincipal.getActionMap();
+		KeyStroke salto = KeyStroke.getKeyStroke("shift S");
+		inputMap.put(salto, "saltarNivel");
+		actionMap.put("saltarNivel", new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) {
+		        saltearNivel(); 
+		    }
+		});
+		
 		frame.add(panelSuperior, BorderLayout.NORTH);
 		frame.add(panelTablero, BorderLayout.CENTER);
 	}
@@ -129,7 +144,16 @@ public class VentanaJuego {
 		frame.dispose();
 		controlador.avanzarNivel();
 	}
+	
+	public void saltearNivel() {
+		temporizador.stop();
 
+	    JOptionPane.showMessageDialog(frame, 
+	    		"¡Nivel completado en " + segundos / 60 + ":" + segundos % 60 + "! Vas al siguiente nivel.");
+	    frame.dispose();
+		controlador.avanzarNivel();
+	}
+	
 	public void mostrar() {
 		frame.setVisible(true);
 	}
