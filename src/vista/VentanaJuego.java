@@ -11,6 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 import controlador.ControladorJuego;
 import modelo.ColorCasilla;
@@ -23,6 +27,10 @@ public class VentanaJuego {
 	private JButton[][] botonesCasillas;
 	private ControladorJuego controlador;
 	private int tamaño;
+	private int segundos = 0;
+	private Timer timer;
+	private JLabel labelTiempo;
+
 
 	public VentanaJuego(ControladorJuego controlador, int tamaño) {
 		this.controlador = controlador;
@@ -37,12 +45,17 @@ public class VentanaJuego {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLayout(new BorderLayout());
+		labelTiempo = new JLabel("Tiempo: 00:00");
+		labelTiempo.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		labelTiempo.setBounds(250, 10, 220, 30);
+		labelTiempo.setHorizontalAlignment(SwingConstants.RIGHT);
+		frame.getContentPane().add(labelTiempo);
 
 		// Panel superior con contador de intentos
 		JPanel panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panelSuperior.setBorder(new EmptyBorder(5, 10, 5, 10));
 		labelErrores = new JLabel("Errores: 0");
-		labelErrores.setFont(new Font("Segoe UI", Font.BOLD, 24));
+		labelErrores.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		panelSuperior.add(labelErrores);
 
 		// Panel con el tablero
@@ -58,7 +71,21 @@ public class VentanaJuego {
 				panelTablero.add(botonesCasillas[i][j]);
 			}
 		}
-
+		
+		// Temporizador que se ejecuta cada 1000 milisegundos (1 segundo)
+		timer = new Timer(1000, new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        segundos++;
+		        int minutos = segundos / 60;
+		        int segRestantes = segundos % 60;
+		        
+		        String tiempoFormateado = String.format("Tiempo: %02d:%02d", minutos, segRestantes);
+		        labelTiempo.setText(tiempoFormateado);
+		    }
+		  }
+		);
+		timer.start();
+		
 		frame.add(panelSuperior, BorderLayout.NORTH);
 		frame.add(panelTablero, BorderLayout.CENTER);
 	}
@@ -82,9 +109,11 @@ public class VentanaJuego {
 	}
 
 	public void mostrarPantallaVictoria() {
-		JOptionPane.showMessageDialog(frame, "¡Nivel completado! Vas al siguiente nivel.");
+		timer.stop();
+		JOptionPane.showMessageDialog(frame, "¡Nivel completado en " + segundos +"segundos! Vas al siguiente nivel.");
 		frame.dispose();
 		controlador.avanzarNivel();
+		
 	}
 
 	public void mostrar() {
