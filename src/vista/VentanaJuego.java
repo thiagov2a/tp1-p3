@@ -110,7 +110,7 @@ public class VentanaJuego {
 
 	public void mostrarPantallaVictoria() {
 		timer.stop();
-		JOptionPane.showMessageDialog(frame, "¡Nivel completado en " + segundos +"segundos! Vas al siguiente nivel.");
+		JOptionPane.showMessageDialog(frame, "¡Nivel completado en " + segundos /60 +":"+ segundos %60+"! Vas al siguiente nivel.");
 		frame.dispose();
 		controlador.avanzarNivel();
 		
