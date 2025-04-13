@@ -155,6 +155,18 @@ public class VentanaJuego {
 			controlador.reiniciarNivel();
 		}
 	}
+	public void finDelJuego() {
+		int opcion = JOptionPane.showConfirmDialog(null, 
+		        "¡Has completado todos los niveles!\n¿Quieres jugar de nuevo?", 
+		        "Juego Completado", 
+		        JOptionPane.YES_NO_OPTION);
+		        
+		    if(opcion == JOptionPane.YES_OPTION) {
+		    	controlador.reiniciarJuego();
+		    } else {
+		        System.exit(0);
+		    }
+	}
 
 	public void mostrar() {
 		frame.setVisible(true);

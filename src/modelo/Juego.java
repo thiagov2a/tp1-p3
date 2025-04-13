@@ -45,4 +45,9 @@ public class Juego {
 	public int obtenerRecord() {
 		return this.record;
 	}
+	public void reiniciarLV() {
+		this.nivelActual = 5;
+		this.tablero = new Tablero(nivelActual);
+		
+	}
 }

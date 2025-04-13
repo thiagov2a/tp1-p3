@@ -28,9 +28,16 @@ public class ControladorJuego {
 	}
 
 	public void avanzarNivel() {
-		juego.avanzarNivel();
-		iniciarNuevaVista();
+	int nivel = juego.obtenerNivelActual();
+	if(nivel <=6) {
+	juego.avanzarNivel();
+	iniciarNuevaVista();
 	}
+	else {
+	vista.finDelJuego();
+	iniciarNuevaVista();
+	}
+}
 
 	public void reiniciarNivel() {
 		juego.reiniciarNivel();
@@ -47,5 +54,9 @@ public class ControladorJuego {
 	private void actualizarVista() {
 		Tablero tablero = juego.obtenerTablero();
 		vista.actualizarVista(tablero.obtenerColores(), juego.obtenerRecord(), tablero.obtenerErrores());
+	}
+	public void reiniciarJuego() {
+        juego.reiniciarLV();
+        iniciarNuevaVista();
 	}
 }
