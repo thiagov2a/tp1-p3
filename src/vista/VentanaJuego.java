@@ -162,7 +162,8 @@ public class VentanaJuego {
 		        JOptionPane.YES_NO_OPTION);
 		        
 		    if(opcion == JOptionPane.YES_OPTION) {
-		    	controlador.reiniciarJuego();
+		    	frame.dispose();
+		    	controlador.reiniciarJuego();		    	
 		    } else {
 		        System.exit(0);
 		    }

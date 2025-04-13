@@ -35,7 +35,6 @@ public class ControladorJuego {
 	}
 	else {
 	vista.finDelJuego();
-	iniciarNuevaVista();
 	}
 }
 

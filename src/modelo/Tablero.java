@@ -27,7 +27,7 @@ public class Tablero {
 		}
 		return casillas;
 	}
-
+	
 	public void cambiarColorCasilla(int fila, int columna) {
 		this.casillas[fila][columna].cambiarColor();
 		verificarYApagarCasillas(fila, columna);
