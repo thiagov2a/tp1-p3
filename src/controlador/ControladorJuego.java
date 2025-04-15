@@ -13,37 +13,37 @@ public class ControladorJuego {
 		this.juego = juego;
 	}
 
-	public void colocarVista(VentanaJuego nuevaVista) {
-		this.vista = nuevaVista;
+	public void colocarVista(VentanaJuego vista) {
+		this.vista = vista;
 		actualizarVista();
 	}
 
 	public void manejarClick(int fila, int columna) {
-		juego.obtenerTablero().cambiarColorCasilla(fila, columna);
+		Tablero tablero = juego.obtenerTablero();
+		tablero.cambiarColorCasilla(fila, columna);
 		actualizarVista();
 
-		if (juego.obtenerTablero().verificarVictoria()) {
+		if (tablero.verificarVictoria()) {
 			vista.mostrarPantallaVictoria();
 		}
 	}
 
 	public void avanzarNivel() {
-	int nivel = juego.obtenerNivelActual();
-	if(nivel <=6) {
-	juego.avanzarNivel();
-	iniciarNuevaVista();
+		juego.avanzarNivel();
+		iniciarVistaDeNivel();
 	}
-	else {
-	vista.finDelJuego();
-	}
-}
 
 	public void reiniciarNivel() {
 		juego.reiniciarNivel();
-		iniciarNuevaVista();
+		iniciarVistaDeNivel();
 	}
 
-	private void iniciarNuevaVista() {
+	public void reiniciarDesdeNivelInicial() {
+		juego.reiniciarDesdeNivel(5);
+		iniciarVistaDeNivel();
+	}
+
+	private void iniciarVistaDeNivel() {
 		int tamaño = juego.obtenerTablero().obtenerTamaño();
 		VentanaJuego nuevaVista = new VentanaJuego(this, tamaño);
 		colocarVista(nuevaVista);
@@ -54,8 +54,16 @@ public class ControladorJuego {
 		Tablero tablero = juego.obtenerTablero();
 		vista.actualizarVista(tablero.obtenerColores(), juego.obtenerRecord(), tablero.obtenerErrores());
 	}
-	public void reiniciarJuego() {
-        juego.reiniciarLV();
-        iniciarNuevaVista();
+
+	public boolean estaEnUltimoNivel() {
+		return juego.obtenerNivelActual() > 6;
+	}
+
+	public void finalizarJuego() {
+		vista.finalizarJuego();
+	}
+
+	public void cerrarAplicacion() {
+		System.exit(0);
 	}
 }

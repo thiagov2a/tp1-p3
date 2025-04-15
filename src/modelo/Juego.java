@@ -8,21 +8,26 @@ public class Juego {
 	private boolean primerRecordGuardado;
 
 	public Juego() {
-		this.nivelActual = 5;
-		this.tablero = new Tablero(nivelActual);
-		this.record = 0;
-		this.primerRecordGuardado = false;
-	}
-
-	public void avanzarNivel() {
-		record = 0;
-		nivelActual++;
-		this.tablero = new Tablero(nivelActual);
+		reiniciarDesdeNivel(5); // Iniciar juego en nivel 5
 	}
 
 	public void reiniciarNivel() {
 		actualizarRecord(tablero.obtenerErrores());
+		tablero = new Tablero(nivelActual);
+	}
+
+	public void reiniciarDesdeNivel(int nivel) {
+		this.nivelActual = nivel;
+		this.record = 0;
+		this.primerRecordGuardado = false;
 		this.tablero = new Tablero(nivelActual);
+	}
+
+	public void avanzarNivel() {
+		record = 0;
+		primerRecordGuardado = false;
+		nivelActual++;
+		tablero = new Tablero(nivelActual);
 	}
 
 	private void actualizarRecord(int errores) {
@@ -35,19 +40,14 @@ public class Juego {
 	}
 
 	public int obtenerNivelActual() {
-		return this.nivelActual;
+		return nivelActual;
 	}
 
 	public Tablero obtenerTablero() {
-		return this.tablero;
+		return tablero;
 	}
 
 	public int obtenerRecord() {
-		return this.record;
-	}
-	public void reiniciarLV() {
-		this.nivelActual = 5;
-		this.tablero = new Tablero(nivelActual);
-		
+		return record;
 	}
 }

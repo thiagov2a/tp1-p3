@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import controlador.ControladorJuego;
@@ -26,101 +25,102 @@ import modelo.ColorCasilla;
 public class VentanaJuego {
 
 	private JFrame frame;
+	private JPanel panelSuperior;
 	private JPanel panelTablero;
+	private JLabel labelNivel;
 	private JLabel labelErrores;
 	private JLabel labelRecord;
-	private JLabel labelTiempo;
 	private JButton[][] botonesCasillas;
 	private ControladorJuego controlador;
 	private int tamaño;
-	private int segundos;
-	private Timer temporizador;
 
 	public VentanaJuego(ControladorJuego controlador, int tamaño) {
 		this.controlador = controlador;
 		this.tamaño = tamaño;
-		this.segundos = 0;
-		inicializar();
-		configurarListeners();
+		inicializarVista();
+		inicializarListeners();
 	}
 
-	// TODO: Agregar label de nivelActual
-	private void inicializar() {
+	private void inicializarVista() {
 		frame = new JFrame("Locura Cromática");
 		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLayout(new BorderLayout());
 
-		// Panel superior con tres secciones: izquierda, centro y derecha
+		panelSuperior = crearPanelSuperior();
+		panelTablero = crearPanelTablero();
+
+		frame.add(panelSuperior, BorderLayout.NORTH);
+		frame.add(panelTablero, BorderLayout.CENTER);
+
+		configurarAtajoDeTeclado();
+	}
+
+	private JPanel crearPanelSuperior() {
 		JPanel panelSuperior = new JPanel(new BorderLayout());
 		panelSuperior.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-		// Label izquierdo - Record
-		labelRecord = new JLabel("Récord: 0");
-		labelRecord.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		JPanel panelIzquierda = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panelIzquierda.setOpaque(false);
-		panelIzquierda.add(labelRecord);
+		labelNivel = crearEtiqueta("Nivel: 0");
+		labelRecord = crearEtiqueta("Récord: 0");
+		labelErrores = crearEtiqueta("Errores: 0");
 
-		// Label central - Errores
-		labelErrores = new JLabel("Errores: 0");
-		labelErrores.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		JPanel panelCentro = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panelCentro.setOpaque(false);
-		panelCentro.add(labelErrores);
+		JPanel panelIzquierda = crearSubpanel(labelNivel, FlowLayout.LEFT);
+		JPanel panelCentro = crearSubpanel(labelRecord, FlowLayout.CENTER);
+		JPanel panelDerecha = crearSubpanel(labelErrores, FlowLayout.RIGHT);
 
-		// Label derecho - Tiempo
-		labelTiempo = new JLabel("Tiempo: 00:00");
-		labelTiempo.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		JPanel panelDerecha = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		panelDerecha.setOpaque(false);
-		panelDerecha.add(labelTiempo);
-
-		// Añadir los tres al panel superior
 		panelSuperior.add(panelIzquierda, BorderLayout.WEST);
 		panelSuperior.add(panelCentro, BorderLayout.CENTER);
 		panelSuperior.add(panelDerecha, BorderLayout.EAST);
 
-		// Panel del tablero
-		panelTablero = new JPanel(new GridLayout(tamaño, tamaño));
-		panelTablero.setBorder(new EmptyBorder(10, 10, 10, 10));
+		return panelSuperior;
+	}
+
+	private JLabel crearEtiqueta(String texto) {
+		JLabel etiqueta = new JLabel(texto);
+		etiqueta.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		return etiqueta;
+	}
+
+	private JPanel crearSubpanel(JLabel etiqueta, int alineacion) {
+		JPanel panel = new JPanel(new FlowLayout(alineacion));
+		panel.setOpaque(false);
+		panel.add(etiqueta);
+		return panel;
+	}
+
+	private JPanel crearPanelTablero() {
+		JPanel panel = new JPanel(new GridLayout(tamaño, tamaño));
+		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
 		botonesCasillas = new JButton[tamaño][tamaño];
 		for (int i = 0; i < tamaño; i++) {
 			for (int j = 0; j < tamaño; j++) {
 				botonesCasillas[i][j] = new JButton();
 				botonesCasillas[i][j].setBackground(ColorCasilla.GRIS.obtenerColor());
-				panelTablero.add(botonesCasillas[i][j]);
+				panel.add(botonesCasillas[i][j]);
 			}
 		}
+		return panel;
+	}
 
-		// Temporizador
-		temporizador = new Timer(1000, e -> {
-			segundos++;
-			int minutos = segundos / 60;
-			int segRestantes = segundos % 60;
-			String tiempoFormateado = String.format("Tiempo: %02d:%02d", minutos, segRestantes);
-			labelTiempo.setText(tiempoFormateado);
-		});
-		temporizador.start();
-
+	private void configurarAtajoDeTeclado() {
 		JPanel panelPrincipal = (JPanel) frame.getContentPane();
 		InputMap inputMap = panelPrincipal.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 		ActionMap actionMap = panelPrincipal.getActionMap();
 		KeyStroke salto = KeyStroke.getKeyStroke("shift S");
+
 		inputMap.put(salto, "saltarNivel");
 		actionMap.put("saltarNivel", new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
 			public void actionPerformed(ActionEvent e) {
 				mostrarPantallaVictoria();
 			}
 		});
-
-		frame.add(panelSuperior, BorderLayout.NORTH);
-		frame.add(panelTablero, BorderLayout.CENTER);
 	}
 
-	private void configurarListeners() {
+	private void inicializarListeners() {
 		for (int i = 0; i < tamaño; i++) {
 			for (int j = 0; j < tamaño; j++) {
 				final int fila = i, columna = j;
@@ -135,17 +135,27 @@ public class VentanaJuego {
 				botonesCasillas[i][j].setBackground(colores[i][j]);
 			}
 		}
-		this.labelRecord.setText("Record: " + record);
-		this.labelErrores.setText("Errores: " + errores);
+		labelNivel.setText("Nivel: " + tamaño);
+		labelRecord.setText("Récord: " + record);
+		labelErrores.setText("Errores: " + errores);
 	}
 
 	public void mostrarPantallaVictoria() {
-		temporizador.stop();
-		int opcion = JOptionPane.showOptionDialog(frame,
-				"¡Nivel completado en " + String.format("%02d:%02d", segundos / 60, segundos % 60)
-						+ "!\n¿Qué querés hacer?",
-				"Nivel Completado", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
-				new Object[] { "Siguiente nivel", "Reintentar" }, "Siguiente nivel");
+		if (controlador.estaEnUltimoNivel()) {
+			controlador.finalizarJuego();
+			return;
+		}
+
+		Object[] opciones = { "Siguiente nivel", "Reintentar" };
+		int opcion = JOptionPane.showOptionDialog(
+				frame,
+				"¡Nivel completado!\n¿Qué querés hacer?",
+				"Nivel Completado",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.INFORMATION_MESSAGE,
+				null,
+				opciones,
+				opciones[0]);
 
 		frame.dispose();
 
@@ -155,21 +165,30 @@ public class VentanaJuego {
 			controlador.reiniciarNivel();
 		}
 	}
-	public void finDelJuego() {
-		int opcion = JOptionPane.showConfirmDialog(null, 
-		        "¡Has completado todos los niveles!\n¿Quieres jugar de nuevo?", 
-		        "Juego Completado", 
-		        JOptionPane.YES_NO_OPTION);
-		        
-		    if(opcion == JOptionPane.YES_OPTION) {
-		    	frame.dispose();
-		    	controlador.reiniciarJuego();		    	
-		    } else {
-		        System.exit(0);
-		    }
+
+	public void finalizarJuego() {
+		Object[] opciones = { "Sí", "No" };
+		int opcion = JOptionPane.showOptionDialog(
+				frame,
+				"¡Has completado todos los niveles!\n¿Querés jugar de nuevo?",
+				"Juego Completado",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				opciones,
+				opciones[0]);
+
+		frame.dispose();
+
+		if (opcion == JOptionPane.YES_OPTION) {
+			controlador.reiniciarDesdeNivelInicial();
+		} else {
+			controlador.cerrarAplicacion();
+		}
 	}
 
 	public void mostrar() {
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 }

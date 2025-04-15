@@ -9,7 +9,7 @@ public class Tablero {
 	private int errores;
 
 	public Tablero() {
-		this(5);
+		this(5); // Iniciar tablero en tamaño 5
 	}
 
 	public Tablero(int tamaño) {
